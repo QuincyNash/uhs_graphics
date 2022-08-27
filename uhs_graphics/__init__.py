@@ -1,3 +1,3 @@
-__version__ = "0.0.1"
+__version__ = "0.0.7"
 
-from . import dim2, dim3
+from uhs_graphics import dim2, dim3

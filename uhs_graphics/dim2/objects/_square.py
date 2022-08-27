@@ -12,6 +12,9 @@ class Square(Object):
     def __str__(self) -> str:
         return f"objects.Square < {self._pos.x} {self._pos.y} {self._size.x} {self._size.y} >"
 
+    def __repr__(self) -> str:
+        return f"objects.Square(x={self._pos.x}, y={self._pos.y}, width={self._size.x}, height={self._size.y}, color={self._color})"
+
     @property
     def width(self) -> int:
         return self._size.x

@@ -12,6 +12,9 @@ class Vector:
         return f"< {self._x} {self._y} >"
 
     def __repr__(self) -> str:
+        return f"Vector(x={self._x}, y={self._y})"
+
+    def descriptor(self) -> str:
         return f"{self._x},{self._y}"
 
     @property

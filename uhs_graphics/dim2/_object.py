@@ -56,4 +56,4 @@ class Object:
         pass
 
     def _descriptor(self) -> str:
-        return f"{_KEY} | object2d | {' '.join(map(lambda p: p.__repr__(), self._points))} | {self._color.__repr__()}"
+        return f"{_KEY} | object2d | {' '.join(map(lambda p: p.descriptor(), self._points))} | {self._color.descriptor()}"

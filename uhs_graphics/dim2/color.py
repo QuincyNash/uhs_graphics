@@ -22,6 +22,9 @@ class Color:
         return f"Color < {self._r} {self._g} {self._b} >"
 
     def __repr__(self) -> str:
+        return f"Color(r={self._r}, g={self._g}, b={self._b})"
+
+    def descriptor(self) -> str:
         return f"color {self._r},{self._g},{self._b}"
 
     @property
