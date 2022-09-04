@@ -8,12 +8,13 @@ class Square(Object):
         Object.__init__(self, x, y)
         self._size = Vector(width, height)
         self._calculate_points()
+        print(self._descriptor())
 
     def __str__(self) -> str:
         return f"objects.Square < {self._pos.x} {self._pos.y} {self._size.x} {self._size.y} >"
 
     def __repr__(self) -> str:
-        return f"objects.Square(x={self._pos.x}, y={self._pos.y}, width={self._size.x}, height={self._size.y}, color={self._color})"
+        return f"objects.Square(x={self._pos.x}, y={self._pos.y}, width={self._size.x}, height={self._size.y}, color={self._color.__repr__()})"
 
     @property
     def width(self) -> int:

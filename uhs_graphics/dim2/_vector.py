@@ -1,4 +1,5 @@
 from __future__ import annotations
+import json
 
 
 class Vector:
@@ -15,7 +16,11 @@ class Vector:
         return f"Vector(x={self._x}, y={self._y})"
 
     def descriptor(self) -> str:
-        return f"{self._x},{self._y}"
+        return json.dumps({
+            "type": "vector",
+            "x": self._x,
+            "y": self._y
+        })
 
     @property
     def x(self) -> int:

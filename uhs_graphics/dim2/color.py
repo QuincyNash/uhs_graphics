@@ -1,4 +1,5 @@
 import colorsys
+import json
 
 
 def hsv(hue: int, saturation: int, value: int):
@@ -24,8 +25,13 @@ class Color:
     def __repr__(self) -> str:
         return f"Color(r={self._r}, g={self._g}, b={self._b})"
 
-    def descriptor(self) -> str:
-        return f"color {self._r},{self._g},{self._b}"
+    def _descriptor(self) -> str:
+        return json.dumps({
+            "type": "color",
+            "r": self._r,
+            "g": self._g,
+            "b": self._b
+        })
 
     @property
     def r(self) -> int:

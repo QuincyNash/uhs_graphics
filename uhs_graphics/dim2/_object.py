@@ -1,12 +1,16 @@
 from typing import List
+import uuid
+import time
+import json
+
+from uhs_graphics import __KEY__
 from ._vector import Vector
 from .color import Color, rgb
-
-_KEY = "abcdefghijklmnopqrstuvwxyz"
 
 
 class Object:
     def __init__(self, x: int = 0, y: int = 0, *, color: Color = rgb(255, 255, 255)) -> None:
+        self._id = uuid.uuid4()
         self._pos = Vector(x, y, _internal_flags={
             "_on_change": self._calculate_points})
         self._points: List[Vector] = []
@@ -56,4 +60,12 @@ class Object:
         pass
 
     def _descriptor(self) -> str:
-        return f"{_KEY} | object2d | {' '.join(map(lambda p: p.descriptor(), self._points))} | {self._color.descriptor()}"
+        data = json.dumps({
+            "timestamp": time.time(),
+            "type": "2d",
+            "id": self._id,
+            "points": list(map(lambda p: p.descriptor(), self._points)),
+            "color": self._color._descriptor()
+        })
+
+        return f"{__KEY__} {data}"

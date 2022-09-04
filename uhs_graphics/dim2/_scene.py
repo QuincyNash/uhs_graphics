@@ -1,7 +1,9 @@
+import json
+import time
 from typing import List
-from ._object import Object
 
-_KEY = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+from uhs_graphics import __KEY__
+from ._object import Object
 
 
 class Scene:
@@ -9,12 +11,7 @@ class Scene:
         self._width = width
         self._height = height
         self._objects: List[Object] = []
-
-    def _get_objects(self):
-        return map(lambda x: x.__str__(), self._objects)
-
-    def _generate_frame(self):
-        print(_KEY, *self._get_objects())
+        print(self._descriptor())
 
     @property
     def width(self) -> int:
@@ -33,3 +30,15 @@ class Scene:
     def set_height(self, height: int) -> int:
         self._height = height
         return self._height
+
+    def _descriptor(self) -> str:
+        data = json.dumps({
+            "timestamp": time.time(),
+            "type": "2d",
+            "size": {
+                "x": self._width,
+                "y": self._height
+            }
+        })
+
+        return f"{__KEY__} {data}"
