@@ -8,7 +8,6 @@ class Square(Object):
         Object.__init__(self, x, y, color=color)
         self._size = Vector(width, height)
         self._calculate_points()
-        print(self._descriptor())
 
     def __str__(self) -> str:
         return f"objects.Square < {self._pos.x} {self._pos.y} {self._size.x} {self._size.y} >"
@@ -60,3 +59,5 @@ class Square(Object):
                     self._pos.y - self._size.y / 2)
 
         self._points = [p1, p2, p3, p4]
+
+        print(self._descriptor())
