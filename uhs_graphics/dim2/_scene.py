@@ -9,10 +9,13 @@ from ._object import Object
 
 
 class Scene:
+    _instances: List[Scene] = []
+
     def __init__(self, width: int, height: int) -> None:
-        for obj in gc.get_objects():
-            if isinstance(obj, Scene):
-                raise Exception("Scene has already been created")
+        if len(self.__class__._instances) == 0:
+            self.__class__._instances.append(self)
+        else:
+            raise Exception("A scene has already been instantiated")
 
         self._width = width
         self._height = height
