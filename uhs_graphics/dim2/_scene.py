@@ -1,3 +1,5 @@
+from __future__ import annotations
+import gc
 import json
 import time
 from typing import List
@@ -8,9 +10,17 @@ from ._object import Object
 
 class Scene:
     def __init__(self, width: int, height: int) -> None:
+        for obj in gc.get_objects():
+            if isinstance(obj, Scene):
+                raise Exception("Scene has already been created")
+
         self._width = width
         self._height = height
         self._objects: List[Object] = []
+        self._events = {
+            "mousedown": lambda: 0,
+            "mouseup": lambda: 0,
+        }
         print(self._descriptor())
 
     @property
@@ -30,6 +40,14 @@ class Scene:
     def set_height(self, height: int) -> int:
         self._height = height
         return self._height
+
+    def bind(self, event: str, func: function) -> Scene:
+        if self._events.get(event) is not None:
+            self._events[event] = func
+        return self
+
+    def _trigger(self, event: str, data) -> None:
+        self._events[event](data)
 
     def _descriptor(self) -> str:
         data = json.dumps({
