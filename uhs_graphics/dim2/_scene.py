@@ -14,15 +14,27 @@ class MouseEvent:
         self.x = x
         self.y = y
 
+    def __repr__(self) -> str:
+        return f"MouseEvent(x={self.x}, y={self.y})"
+
+    def __str__(self) -> str:
+        return f"< {self.x} {self.y} >"
+
 
 class KeyboardEvent:
-    def __init__(self, *, key: str, key_code: int, shift: bool, ctrl: bool, alt: bool, meta: bool) -> None:
+    def __init__(self, *, key: str, key_code: str, shift: bool, ctrl: bool, alt: bool, meta: bool) -> None:
         self.key = key
         self.key_code = key_code
         self.shift = shift
         self.ctrl = ctrl
         self.meta = meta
         self.alt = alt
+
+    def __repr__(self) -> str:
+        return f"KeyboardEvent(key=\"{self.key}\", key_code=\"{self.key_code}\", shift={self.shift}, alt={self.alt}, ctrl={self.ctrl}, meta={self.meta})"
+
+    def __str__(self) -> str:
+        return self.key
 
 
 class Scene:
