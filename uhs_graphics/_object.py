@@ -62,7 +62,6 @@ class Object:
     def _descriptor(self) -> str:
         data = json.dumps({
             "timestamp": time.time(),
-            "type": "2d",
             "id": str(self._id),
             "points": list(map(lambda p: p.descriptor(), self._points)),
             "color": self._color._descriptor()

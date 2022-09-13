@@ -97,7 +97,6 @@ class Scene:
     def _descriptor(self) -> str:
         data = json.dumps({
             "timestamp": time.time(),
-            "type": "2d",
             "size": {
                 "x": self._width,
                 "y": self._height

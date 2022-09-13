@@ -17,7 +17,6 @@ class Vector:
 
     def descriptor(self) -> str:
         return json.dumps({
-            "type": "vector",
             "x": self._x,
             "y": self._y
         })

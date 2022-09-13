@@ -27,7 +27,6 @@ class Color:
 
     def _descriptor(self) -> str:
         return json.dumps({
-            "type": "color",
             "r": self._r,
             "g": self._g,
             "b": self._b
