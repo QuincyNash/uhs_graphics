@@ -1,10 +1,10 @@
 from __future__ import annotations
-import gc
 import json
 import time
 from typing import List
 
 from uhs_graphics import __KEY__
+from .color import Color
 from ._object import Object
 from ._vector import Vector
 
@@ -49,6 +49,8 @@ class Scene:
         self._width = width
         self._height = height
         self._objects: List[Object] = []
+        self._bg = Color(255, 255, 255, _internal_flags={
+            "_on_change": self._descriptor})
         self._events = {
             "mousedown": [],
             "mouseup": [],
@@ -57,25 +59,53 @@ class Scene:
         }
         self._mouse_pos = Vector(0, 0)
         self._keys_pressed: List[str] = []
-        print(self._descriptor())
+        self._descriptor()
 
-    @ property
+    @property
     def width(self) -> int:
         return self._width
 
-    @ width.setter
+    @width.setter
     def width(self, width: int) -> int:
         self._width = width
+        self._descriptor()
         return self._width
 
-    @ property
+    @property
     def height(self) -> int:
         return self._height
 
-    @ height.setter
+    @height.setter
     def set_height(self, height: int) -> int:
         self._height = height
+        self._descriptor()
         return self._height
+
+    @property
+    def bg(self) -> Color:
+        return self._bg
+
+    @bg.setter
+    def bg(self, bg: Color) -> Color:
+        self._bg = bg
+        self._descriptor()
+        return self._bg
+
+    @property
+    def background(self) -> Color:
+        return self._bg
+
+    @bg.setter
+    def background(self, bg: Color) -> Color:
+        self._bg = bg
+        self._descriptor()
+        return self._bg
+
+    def keys_pressed(self) -> List[str]:
+        return self._keys_pressed
+
+    def is_pressed(self, *keys: str) -> bool:
+        return all([key in self._keys_pressed for key in keys])
 
     def bind(self, event: str, func: function) -> Scene:
         if isinstance(self._events.get(event), list):
@@ -86,10 +116,10 @@ class Scene:
 
     def _trigger(self, event: str, data) -> None:
         if event == "keydown":
-            self._keys_pressed.append(data.key)
+            self._keys_pressed.append(data.key_code)
         elif event == "keyup":
             if data.key in self._keys_pressed:
-                self._keys_pressed.remove(data.key)
+                self._keys_pressed.remove(data.key_code)
 
         for ev in self._events[event]:
             ev(data)
@@ -97,10 +127,15 @@ class Scene:
     def _descriptor(self) -> str:
         data = json.dumps({
             "timestamp": time.time(),
+            "bg": {
+                "r": self._bg._r,
+                "g": self._bg._g,
+                "b": self._bg._b
+            },
             "size": {
                 "x": self._width,
                 "y": self._height
             }
         })
 
-        return f"{__KEY__} {data}"
+        print(f"{__KEY__} {data}")

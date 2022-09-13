@@ -9,7 +9,7 @@ from .color import Color, rgb
 
 
 class Object:
-    def __init__(self, x: int = 0, y: int = 0, *, color: Color = rgb(255, 255, 255)) -> None:
+    def __init__(self, x: int = 0, y: int = 0, *, color: Color = rgb(0, 0, 0)) -> None:
         self._id = uuid.uuid4()
         self._pos = Vector(x, y, _internal_flags={
             "_on_change": self._calculate_points})
@@ -19,23 +19,23 @@ class Object:
 
     @property
     def x(self) -> int:
-        return self._pos.x
+        return self._pos._x
 
     @x.setter
     def x(self, x: int) -> int:
-        self._pos.x = x
+        self._pos._x = x
         self._calculate_points()
-        return self._pos.x
+        return self._pos._x
 
     @property
     def y(self) -> int:
-        return self._pos.y
+        return self._pos._y
 
     @y.setter
     def y(self, y: int) -> int:
-        self._pos.y = y
+        self._pos._y = y
         self._calculate_points()
-        return self._pos.y
+        return self._pos._y
 
     @property
     def pos(self) -> Vector:
