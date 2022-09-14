@@ -48,12 +48,23 @@ class Object:
         return self._pos
 
     @property
+    def position(self) -> Vector:
+        return self._pos
+
+    @position.setter
+    def position(self, pos: Vector) -> Vector:
+        self._pos = pos
+        self._calculate_points()
+        return self._pos
+
+    @property
     def color(self) -> Color:
         return self._color
 
     @color.setter
     def color(self, color: Color) -> Color:
-        self._color = color
+        self._color.set(color._r, color._g, color._b)
+        self._calculate_points()
         return self._color
 
     def _calculate_points(self) -> None:

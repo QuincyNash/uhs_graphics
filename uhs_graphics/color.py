@@ -1,3 +1,4 @@
+from __future__ import annotations
 import colorsys
 import json
 
@@ -32,6 +33,12 @@ class Color:
             "b": self._b
         })
 
+    def set(self, r: int, g: int, b: int) -> Color:
+        self._r = r
+        self._g = g
+        self._b = b
+        return self
+
     @property
     def r(self) -> int:
         return self._r
@@ -61,3 +68,6 @@ class Color:
         self._b = b
         self._on_change()
         return self._b
+
+    def copy(self) -> Color:
+        return Color(self._r, self._g, self._b, _internal_flags={"_on_change": self._on_change})

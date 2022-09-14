@@ -76,7 +76,7 @@ class Scene:
         return self._height
 
     @height.setter
-    def set_height(self, height: int) -> int:
+    def height(self, height: int) -> int:
         self._height = height
         self._descriptor()
         return self._height
@@ -87,7 +87,7 @@ class Scene:
 
     @bg.setter
     def bg(self, bg: Color) -> Color:
-        self._bg = bg
+        self._bg.set(bg._r, bg._g, bg._b)
         self._descriptor()
         return self._bg
 
@@ -97,7 +97,7 @@ class Scene:
 
     @background.setter
     def background(self, bg: Color) -> Color:
-        self._bg = bg
+        self._bg.set(bg._r, bg._g, bg._b)
         self._descriptor()
         return self._bg
 

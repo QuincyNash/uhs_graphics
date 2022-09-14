@@ -1,13 +1,17 @@
-__version__ = "0.0.26"
+__version__ = "0.0.30"
 __KEY__ = "iZp6JK0WyW152Tqb68FxdkONgBKVG3G9"
 
 
-from ._scene import Scene
-from ._vector import Vector
-from . import objects
-from . import color
+from uhs_graphics._scene import Scene
+from uhs_graphics._vector import Vector
+from uhs_graphics import objects
+from uhs_graphics import color
 import time
 
 
 def rate(fps: int) -> None:
     time.sleep(1 / fps)
+
+
+scene = Scene(5, 5)
+scene.bg.r = 5
