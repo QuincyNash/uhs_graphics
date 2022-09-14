@@ -74,7 +74,7 @@ class Object:
         data = json.dumps({
             "timestamp": time.time(),
             "id": str(self._id),
-            "points": list(map(lambda p: p.descriptor(), self._points)),
+            "points": list(map(lambda p: p._descriptor(), self._points)),
             "color": self._color._descriptor()
         })
 
