@@ -119,7 +119,7 @@ class Scene:
             self._keys_pressed.append(data)
         elif event == "keyup":
             self._keys_pressed = list(filter(
-                lambda pressed: pressed.key != data.key or pressed.key_code != data.key_code or pressed.shift != data.shift or pressed.alt != data.alt or pressed.ctrl != data.ctrl or pressed.meta != data.meta, self._keys_pressed
+                lambda pressed: pressed.key_code != data.key_code
             ))
         elif event == "releaseall":
             for pressed in self._keys_pressed:
