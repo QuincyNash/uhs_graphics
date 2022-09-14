@@ -1,4 +1,4 @@
-from math import degrees, sin, cos
+from math import radians, sin, cos
 from .._object import Object
 from .._vector import Vector
 from ..color import Color
@@ -39,9 +39,9 @@ class Ellipse(Object):
 
     def _calculate_points(self) -> None:
         self._points = []
-        for angle in range(0, 360, 2):
-            point = Vector(self._pos._x + self._rx * cos(degrees(angle)),
-                           self._pos._y + self._ry * sin(degrees(angle)))
+        for angle in range(0, 360):
+            point = Vector(self._pos._x + self._rx * cos(radians(angle)),
+                           self._pos._y + self._ry * sin(radians(angle)))
             self._points.append(point)
 
         print(self._descriptor())
