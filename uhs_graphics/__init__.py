@@ -1,4 +1,4 @@
-__version__ = "0.0.30"
+__version__ = "0.0.31"
 __KEY__ = "iZp6JK0WyW152Tqb68FxdkONgBKVG3G9"
 
 
@@ -11,7 +11,3 @@ import time
 
 def rate(fps: int) -> None:
     time.sleep(1 / fps)
-
-
-scene = Scene(5, 5)
-scene.bg.r = 5
