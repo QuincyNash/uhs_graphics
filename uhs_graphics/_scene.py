@@ -114,7 +114,7 @@ class Scene:
             raise Exception(f"The event '{event}' does not exist")
         return self
 
-    def _trigger(self, event: str, data) -> None:
+    def _trigger(self, event: str, data: KeyboardEvent) -> None:
         if event == "releaseall":
             self._keys_pressed = []
             return None
