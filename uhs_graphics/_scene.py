@@ -58,7 +58,7 @@ class Scene:
             "keyup": [],
         }
         self._mouse_pos = Vector(0, 0)
-        self._keys_pressed: List[str] = []
+        self._keys_pressed: List[KeyboardEvent] = []
         self._descriptor()
 
     @property
@@ -102,10 +102,10 @@ class Scene:
         return self._bg
 
     def keys_pressed(self) -> List[str]:
-        return self._keys_pressed
+        return [pressed.key_code for pressed in self._keys_pressed]
 
     def is_pressed(self, *keys: str) -> bool:
-        return all([key in self._keys_pressed for key in keys])
+        return all([any(lambda pressed: pressed.key_code == key, self._keys_pressed) for key in keys])
 
     def bind(self, event: str, func: function) -> Scene:
         if isinstance(self._events.get(event), list):
@@ -115,15 +115,18 @@ class Scene:
         return self
 
     def _trigger(self, event: str, data: KeyboardEvent) -> None:
-        if event == "releaseall":
+        if event == "keydown":
+            self._keys_pressed.append(data)
+        elif event == "keyup":
+            self._keys_pressed = list(filter(
+                lambda pressed: pressed.key != data.key or pressed.key_code != data.key_code or pressed.shift != data.shift or pressed.alt != data.alt or pressed.ctrl != data.ctrl or pressed.meta != data.meta, self._keys_pressed
+            ))
+        elif event == "releaseall":
+            for pressed in self._keys_pressed:
+                for ev in self._events["keyup"]:
+                    ev(pressed)
             self._keys_pressed = []
             return None
-
-        if event == "keydown":
-            self._keys_pressed.append(data.key_code)
-        elif event == "keyup":
-            if data.key_code in self._keys_pressed:
-                self._keys_pressed.remove(data.key_code)
 
         for ev in self._events[event]:
             ev(data)
