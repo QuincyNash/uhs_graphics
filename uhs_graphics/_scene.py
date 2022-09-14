@@ -95,7 +95,7 @@ class Scene:
     def background(self) -> Color:
         return self._bg
 
-    @bg.setter
+    @background.setter
     def background(self, bg: Color) -> Color:
         self._bg = bg
         self._descriptor()
@@ -124,7 +124,7 @@ class Scene:
         for ev in self._events[event]:
             ev(data)
 
-    def _descriptor(self) -> str:
+    def _descriptor(self) -> None:
         data = json.dumps({
             "timestamp": time.time(),
             "bg": {
