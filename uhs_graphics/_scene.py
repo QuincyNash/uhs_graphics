@@ -114,16 +114,19 @@ class Scene:
             raise Exception(f"The event '{event}' does not exist")
         return self
 
-    def _trigger(self, event: str, data, _no_handlers: bool = False) -> None:
+    def _trigger(self, event: str, data) -> None:
+        if event == "releaseall":
+            self._keys_pressed = []
+            return None
+
         if event == "keydown":
             self._keys_pressed.append(data.key_code)
         elif event == "keyup":
             if data.key_code in self._keys_pressed:
                 self._keys_pressed.remove(data.key_code)
 
-        if not _no_handlers:
-            for ev in self._events[event]:
-                ev(data)
+        for ev in self._events[event]:
+            ev(data)
 
     def _descriptor(self) -> None:
         data = json.dumps({
