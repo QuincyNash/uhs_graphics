@@ -1,8 +1,8 @@
-__version__ = "0.0.45"
+__version__ = "0.0.47"
 __KEY__ = "iZp6JK0WyW152Tqb68FxdkONgBKVG3G9"
 
 
-from uhs_graphics._scene import Scene
+from uhs_graphics._scene import Scene, KeyboardEvent
 from uhs_graphics._vector import Vector
 from uhs_graphics import objects
 from uhs_graphics import color
