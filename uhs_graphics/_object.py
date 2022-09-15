@@ -43,7 +43,8 @@ class Object:
 
     @pos.setter
     def pos(self, pos: Vector) -> Vector:
-        self._pos = pos
+        self._pos._x = pos._x
+        self._pos._y = pos._y
         self._calculate_points()
         return self._pos
 
@@ -53,7 +54,8 @@ class Object:
 
     @position.setter
     def position(self, pos: Vector) -> Vector:
-        self._pos = pos
+        self._pos._x = pos._x
+        self._pos._y = pos._y
         self._calculate_points()
         return self._pos
 
