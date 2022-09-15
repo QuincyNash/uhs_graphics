@@ -9,16 +9,15 @@ from ._object import Object
 from ._vector import Vector
 
 
-class MouseEvent:
+class MouseEvent(Vector):
     def __init__(self, *, x: int, y: int) -> None:
-        self.x = x
-        self.y = y
+        Vector.__init__(self, x, y)
 
     def __repr__(self) -> str:
-        return f"MouseEvent(x={self.x}, y={self.y})"
+        return f"MouseEvent(x={self._x}, y={self._y})"
 
     def __str__(self) -> str:
-        return f"< {self.x} {self.y} >"
+        return f"< {self._x} {self._y} >"
 
 
 class KeyboardEvent:
