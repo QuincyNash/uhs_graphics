@@ -116,7 +116,7 @@ class Scene:
 
     def _call(self, func: function, data: Any) -> None:
         if func.__code__.co_argcount >= 1:
-            func(data)
+            func(data, *[None] * (func.__code__.co_argcount - 1))
         else:
             func()
 
