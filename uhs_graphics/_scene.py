@@ -1,7 +1,7 @@
 from __future__ import annotations
 import json
 import time
-from typing import List
+from typing import Any, List
 
 from uhs_graphics import __KEY__
 from .color import Color
@@ -114,7 +114,13 @@ class Scene:
             raise Exception(f"The event '{event}' does not exist")
         return self
 
-    def _trigger(self, event: str, data: KeyboardEvent) -> None:
+    def _call(self, func: function, data: Any) -> None:
+        if func.__code__.co_argcount >= 1:
+            func(data)
+        else:
+            func()
+
+    def _trigger(self, event: str, data: Any) -> None:
         if event == "keydown":
             self._keys_pressed.append(data)
         elif event == "keyup":
@@ -124,12 +130,12 @@ class Scene:
         elif event == "releaseall":
             for pressed in self._keys_pressed:
                 for ev in self._events["keyup"]:
-                    ev(pressed)
+                    self._call(ev, pressed)
             self._keys_pressed = []
             return None
 
         for ev in self._events[event]:
-            ev(data)
+            self._call(ev, data)
 
     def _descriptor(self) -> None:
         data = json.dumps({
