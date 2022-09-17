@@ -54,6 +54,7 @@ class Scene:
             "mousemove": [],
             "mousedown": [],
             "mouseup": [],
+            "mousedrag": [],
             "doubleclick": [],
             "keydown": [],
             "keyup": [],
