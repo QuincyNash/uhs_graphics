@@ -1,4 +1,4 @@
-__version__ = "0.0.52"
+__version__ = "0.0.54"
 __KEY__ = "iZp6JK0WyW152Tqb68FxdkONgBKVG3G9"
 
 

@@ -51,12 +51,15 @@ class Scene:
         self._bg = Color(255, 255, 255, _internal_flags={
             "_on_change": self._descriptor})
         self._events = {
+            "mousemove": [],
             "mousedown": [],
             "mouseup": [],
+            "doubleclick": [],
             "keydown": [],
             "keyup": [],
         }
         self._mouse_pos = Vector(0, 0)
+        self._mouse_pressed = False
         self._keys_pressed: List[KeyboardEvent] = []
         self._descriptor()
 
@@ -100,7 +103,16 @@ class Scene:
         self._descriptor()
         return self._bg
 
-    def keys_pressed(self) -> List[str]:
+    @property
+    def mouse(self) -> Vector:
+        return self._mouse_pos
+
+    @property
+    def mouse_pressed(self) -> bool:
+        return self._mouse_pressed
+
+    @property
+    def keys(self) -> List[str]:
         return [pressed.key_code for pressed in self._keys_pressed]
 
     def is_pressed(self, *keys: str) -> bool:
@@ -132,6 +144,13 @@ class Scene:
                     self._call(ev, pressed)
             self._keys_pressed = []
             return None
+        elif event == "mousemove":
+            self._mouse_pos._x = data.x
+            self._mouse_pos._y = data.y
+        elif event == "mousedown":
+            self._mouse_pressed = True
+        elif event == "mouseup":
+            self._mouse_pressed = False
 
         for ev in self._events[event]:
             self._call(ev, data)
