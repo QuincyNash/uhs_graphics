@@ -56,6 +56,7 @@ class Scene:
             "mouseup": [],
             "mousedrag": [],
             "doubleclick": [],
+            "rightclick": [],
             "keydown": [],
             "keyup": [],
         }
@@ -122,6 +123,8 @@ class Scene:
     def bind(self, event: str, func: function) -> Scene:
         if isinstance(self._events.get(event), list):
             self._events[event].append(func)
+            if event == "mousemove":
+                self._events["mousedrag"].append(func)
         else:
             raise Exception(f"The event '{event}' does not exist")
         return self

@@ -1,4 +1,4 @@
-__version__ = "0.0.55"
+__version__ = "0.0.57"
 __KEY__ = "iZp6JK0WyW152Tqb68FxdkONgBKVG3G9"
 
 
@@ -11,3 +11,8 @@ import time
 
 def rate(fps: int) -> None:
     time.sleep(1 / fps)
+
+
+def wait_for_events() -> None:
+    while True:
+        pass
