@@ -9,13 +9,14 @@ from .color import Color, rgb
 
 
 class Object:
-    def __init__(self, x: int = 0, y: int = 0, *, color: Color = rgb(0, 0, 0)) -> None:
+    def __init__(self, x: int = 0, y: int = 0, *, color: Color = rgb(0, 0, 0), fixed: bool = False) -> None:
         self._id = uuid.uuid4()
         self._pos = Vector(x, y, _internal_flags={
             "_on_change": self._calculate_points})
         self._points: List[Vector] = []
         self._color = Color(color._r, color._g, color._b, _internal_flags={
                             "_on_change": self._calculate_points})
+        self._fixed = fixed
 
     @property
     def x(self) -> int:
@@ -60,6 +61,16 @@ class Object:
         return self._pos
 
     @property
+    def fixed(self) -> bool:
+        return self._fixed
+
+    @fixed.setter
+    def fixed(self, fixed: bool) -> bool:
+        self._fixed = fixed
+        self._calculate_points()
+        return self._fixed
+
+    @property
     def color(self) -> Color:
         return self._color
 
@@ -77,7 +88,8 @@ class Object:
             "timestamp": time.time(),
             "id": str(self._id),
             "points": list(map(lambda p: p._descriptor(), self._points)),
-            "color": self._color._descriptor()
+            "color": self._color._descriptor(),
+            "fixed": self._fixed
         })
 
         return f"{__KEY__} {data}"

@@ -1,12 +1,13 @@
 from __future__ import annotations
 import json
+from typing import Callable
 
 
 class Vector:
-    def __init__(self, x: int, y: int, *, _internal_flags: dict = {}) -> None:
+    def __init__(self, x: int, y: int, *, _internal_flags: dict[str, Callable[..., None]] = {}) -> None:
         self._x = x
         self._y = y
-        self._on_change: function = _internal_flags.get(
+        self._on_change = _internal_flags.get(
             "_on_change", lambda: None)
 
     def __str__(self) -> str:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 import colorsys
 import json
+from typing import Callable
 
 
 def hsv(hue: int, saturation: int, value: int):
@@ -17,7 +18,7 @@ class Color:
         self._r = r
         self._g = g
         self._b = b
-        self._on_change: function = _internal_flags.get(
+        self._on_change: Callable[..., None] = _internal_flags.get(
             "_on_change", lambda: None)
 
     def __str__(self) -> str:

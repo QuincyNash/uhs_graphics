@@ -5,8 +5,8 @@ from ..color import Color
 
 
 class Ellipse(Object):
-    def __init__(self, x: int = 0, y: int = 0, rx: int = 1, ry: int = 0.5, *, color: Color = Color(0, 0, 0)) -> None:
-        Object.__init__(self, x, y, color=color)
+    def __init__(self, x: int = 0, y: int = 0, rx: int = 1, ry: int = 0.5, *, color: Color = Color(0, 0, 0), fixed: bool = False) -> None:
+        Object.__init__(self, x, y, color=color, fixed=fixed)
         self._rx = rx
         self._ry = ry
         self._calculate_points()

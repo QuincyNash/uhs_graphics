@@ -4,8 +4,8 @@ from ..color import Color
 
 
 class Square(Object):
-    def __init__(self, x: int = 0, y: int = 0, width: int = 1, height: int = 1, *, color: Color = Color(0, 0, 0)) -> None:
-        Object.__init__(self, x, y, color=color)
+    def __init__(self, x: int = 0, y: int = 0, width: int = 1, height: int = 1, *, color: Color = Color(0, 0, 0), fixed: bool = False) -> None:
+        Object.__init__(self, x, y, color=color, fixed=fixed)
         self._size = Vector(width, height)
         self._calculate_points()
 

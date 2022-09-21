@@ -1,7 +1,9 @@
 from __future__ import annotations
+from typing import Callable, List, Union
+import functools
+import types
 import json
 import time
-from typing import Any, List
 
 from uhs_graphics import __KEY__
 from .color import Color
@@ -36,6 +38,41 @@ class KeyboardEvent:
         return self.key
 
 
+class Camera(Vector):
+    def __init__(self, x: int = 0, y: int = 0, _internal_flags: dict[str, Callable[..., None]] = {}) -> None:
+        Vector.__init__(self, x, y, _internal_flags=_internal_flags)
+
+    def move(self, x: int = 0, y: int = 0) -> Camera:
+        self._x = x
+        self._y = y
+        self._on_change()
+        return self
+
+    def follow(self, vector: Vector) -> Camera:
+        def copy_func(f: function):
+            g = types.FunctionType(
+                f.__code__,
+                f.__globals__,
+                name=f.__name__,
+                argdefs=f.__defaults__,
+                closure=f.__closure__
+            )
+            g = functools.update_wrapper(g, f)
+            g.__kwdefaults__ = f.__kwdefaults__
+            return g
+
+        _old_on_change = copy_func(vector._on_change)
+
+        def _new_on_change():
+            _old_on_change()
+            self._x = vector._x
+            self._y = vector._y
+            self._on_change()
+
+        vector._on_change = _new_on_change
+        return self
+
+
 class Scene:
     _instances: List[Scene] = []
 
@@ -47,6 +84,8 @@ class Scene:
 
         self._width = width
         self._height = height
+        self._camera = Camera(
+            _internal_flags={"_on_change": self._descriptor})
         self._objects: List[Object] = []
         self._bg = Color(255, 255, 255, _internal_flags={
             "_on_change": self._descriptor})
@@ -106,6 +145,17 @@ class Scene:
         return self._bg
 
     @property
+    def camera(self) -> Camera:
+        return self._camera
+
+    @camera.setter
+    def camera(self, vector: Vector) -> Camera:
+        self._camera._x = vector._x
+        self._camera._y = vector._y
+        self._descriptor()
+        return self._camera
+
+    @property
     def mouse(self) -> Vector:
         return self._mouse_pos
 
@@ -120,7 +170,7 @@ class Scene:
     def is_pressed(self, *keys: str) -> bool:
         return all([any(lambda pressed: pressed.key_code == key, self._keys_pressed) for key in keys])
 
-    def bind(self, event: str, func: function) -> Scene:
+    def bind(self, event: str, func: Callable[[Union[KeyboardEvent, MouseEvent]], None]) -> Scene:
         if isinstance(self._events.get(event), list):
             self._events[event].append(func)
             if event == "mousemove":
@@ -129,13 +179,14 @@ class Scene:
             raise Exception(f"The event '{event}' does not exist")
         return self
 
-    def _call(self, func: function, data: Any) -> None:
+    def _call(self, func: Callable[..., None], data: Union[KeyboardEvent, MouseEvent]) -> None:
         if func.__code__.co_argcount >= 1:
             func(data, *[None] * (func.__code__.co_argcount - 1))
         else:
             func()
 
-    def _trigger(self, event: str, data: Any) -> None:
+    def _trigger(self, event: str, data: Union[KeyboardEvent, MouseEvent, dict[None, None]]) -> None:
+
         if event == "keydown":
             self._keys_pressed.append(data)
         elif event == "keyup":
@@ -148,9 +199,10 @@ class Scene:
                     self._call(ev, pressed)
             self._keys_pressed = []
             return None
-        elif event == "mousemove":
+        elif event == "mousemove" or event == "mousedrag":
             self._mouse_pos._x = data.x
             self._mouse_pos._y = data.y
+            self._mouse_pos._on_change()
         elif event == "mousedown":
             self._mouse_pressed = True
         elif event == "mouseup":
@@ -170,6 +222,10 @@ class Scene:
             "size": {
                 "x": self._width,
                 "y": self._height
+            },
+            "camera": {
+                "x": self._camera._x,
+                "y": self._camera._y
             }
         })
 

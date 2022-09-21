@@ -4,8 +4,8 @@ from ._ellipse import Ellipse
 
 
 class Circle(Ellipse):
-    def __init__(self, x: int = 0, y: int = 0, radius: int = 0.5, *, color: Color = Color(0, 0, 0)) -> None:
-        Ellipse.__init__(self, x, y, radius, radius, color=color)
+    def __init__(self, x: int = 0, y: int = 0, radius: int = 0.5, *, color: Color = Color(0, 0, 0), fixed: bool = False) -> None:
+        Ellipse.__init__(self, x, y, radius, radius, color=color, fixed=fixed)
         self._radius = radius
         self._calculate_points()
 
