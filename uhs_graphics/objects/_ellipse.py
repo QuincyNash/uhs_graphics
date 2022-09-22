@@ -1,12 +1,14 @@
 from math import radians, sin, cos
+from typing import Union
 from .._object import Object
 from .._vector import Vector
 from ..color import Color
 
 
 class Ellipse(Object):
-    def __init__(self, x: int = 0, y: int = 0, rx: int = 1, ry: int = 0.5, *, color: Color = Color(0, 0, 0), fixed: bool = False) -> None:
-        Object.__init__(self, x, y, color=color, fixed=fixed)
+    def __init__(self, x: int = 0, y: int = 0, rx: int = 1, ry: int = 0.5, *, color: Color = Color(0, 0, 0), border: Union[Color, None] = None, border_thickness: int = 1, fixed: bool = False, layer: int = None) -> None:
+        Object.__init__(self, x, y, color=color, border=border,
+                        border_thickness=border_thickness, fixed=fixed, layer=layer)
         self._rx = rx
         self._ry = ry
         self._calculate_points()
@@ -15,7 +17,7 @@ class Ellipse(Object):
         return f"objects.Ellipse < {self._pos._x} {self._pos._y} {self._rx} {self._ry} >"
 
     def __repr__(self) -> str:
-        return f"objects.Circle(x={self._pos._x}, y={self._pos._y}, rx={self._rx}, ry={self._ry}, color={self._color.__repr__()})"
+        return f"objects.Circle(x={self._pos._x}, y={self._pos._y}, rx={self._rx}, ry={self._ry}, color={self._color.__repr__()}, fixed={self._fixed}, layer={self._layer})"
 
     @property
     def rx(self) -> int:

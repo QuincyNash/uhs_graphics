@@ -1,11 +1,13 @@
+from typing import Union
 from .._object import Object
 from .._vector import Vector
 from ..color import Color
 
 
 class Square(Object):
-    def __init__(self, x: int = 0, y: int = 0, width: int = 1, height: int = 1, *, color: Color = Color(0, 0, 0), fixed: bool = False) -> None:
-        Object.__init__(self, x, y, color=color, fixed=fixed)
+    def __init__(self, x: int = 0, y: int = 0, width: int = 1, height: int = 1, *, color: Color = Color(0, 0, 0), border: Union[Color, None] = None, border_thickness: int = 1, fixed: bool = False, layer: int = None) -> None:
+        Object.__init__(self, x, y, color=color, border=border,
+                        border_thickness=border_thickness, fixed=fixed, layer=layer)
         self._size = Vector(width, height)
         self._calculate_points()
 
@@ -13,7 +15,7 @@ class Square(Object):
         return f"objects.Square < {self._pos._x} {self._pos._y} {self._size._x} {self._size._y} >"
 
     def __repr__(self) -> str:
-        return f"objects.Square(x={self._pos._x}, y={self._pos._y}, width={self._size._x}, height={self._size._y}, color={self._color.__repr__()})"
+        return f"objects.Square(x={self._pos._x}, y={self._pos._y}, width={self._size._x}, height={self._size._y}, color={self._color.__repr__()}, fixed={self._fixed}, layer={self._layer})"
 
     @property
     def width(self) -> int:

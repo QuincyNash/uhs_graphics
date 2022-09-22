@@ -104,6 +104,12 @@ class Scene:
         self._keys_pressed: List[KeyboardEvent] = []
         self._descriptor()
 
+    def __str__(self) -> str:
+        return f"Scene < {self._width} {self._height} >"
+
+    def __repr__(self) -> str:
+        return f"Scene(width={self._width}, height={self._height})"
+
     @property
     def width(self) -> int:
         return self._width
